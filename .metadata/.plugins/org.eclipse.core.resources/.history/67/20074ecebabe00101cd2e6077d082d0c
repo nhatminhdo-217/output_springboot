@@ -1,0 +1,46 @@
+package nhatm.project.demo.student_management;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class StudentServiceImpl implements StudentService{
+
+	private StudentRepository studentRepo;
+	
+	public StudentServiceImpl(StudentRepository studentRepo) {
+		this.studentRepo = studentRepo;
+	}
+
+	@Override
+	public Optional<Student> getStudentById(int userId) {
+		return studentRepo.findById(userId);
+	}
+
+	@Override
+	public List<Student> getAllStudent() {
+
+		return studentRepo.findAll();
+	}
+
+	@Override
+	public Optional<Student> getStudentByName(String name) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public boolean isStudentGraduatedByStatus(boolean status) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteStudentById(int userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

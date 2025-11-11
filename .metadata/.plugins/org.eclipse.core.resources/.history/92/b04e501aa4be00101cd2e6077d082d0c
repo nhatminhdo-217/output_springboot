@@ -1,0 +1,36 @@
+package nhatm.project.demo.helloworld;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+@Controller
+public class HelloController {
+
+    @GetMapping("/")
+    public String getIndex() {
+        return "index.html";
+    }
+    
+
+    @PostMapping("/login")
+    public String login(HttpServletRequest request, HttpServletResponse response) {
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        String message;
+        if (userName == null || userName.equals("") || !userName.equals("minhdonhat") || password == null || password.equals("") || !password.equals("123")) {
+            message = "Wrong username or password. Try again!";
+
+            return new ModelAndView("errorPage", "message", message);
+        }
+
+        message = "Welcome " + userName + " .";
+        return new ModelAndView("welcome", "message", message);
+    }
+    
+}

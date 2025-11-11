@@ -1,0 +1,5 @@
+package nhatm.project.demo.student_management;
+
+public class StudentManagementApplication {
+
+}
