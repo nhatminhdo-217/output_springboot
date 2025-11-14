@@ -1,4 +1,4 @@
-package nhatm.project.demo.jwt.model;
+package nhatm.project.demo.jwt.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package nhatm.project.demo.jwt;
+package nhatm.project.demo.jwt.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

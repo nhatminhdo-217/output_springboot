@@ -1,5 +1,6 @@
-package nhatm.project.demo.jwt;
+package nhatm.project.demo.jwt.repository;
 
+import nhatm.project.demo.jwt.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

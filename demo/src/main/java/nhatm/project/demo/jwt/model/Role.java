@@ -1,4 +1,4 @@
-package nhatm.project.demo.jwt;
+package nhatm.project.demo.jwt.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,10 +18,14 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String role;
+    private ERole role;
 
     @Override
     public String getAuthority() {
-        return this.role;
+        return this.role.name();
+    }
+
+    public Role(ERole role) {
+        this.role = role;
     }
 }
