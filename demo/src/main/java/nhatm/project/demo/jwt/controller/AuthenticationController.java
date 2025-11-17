@@ -101,4 +101,23 @@ public class AuthenticationController {
 
         return  ResponseEntity.ok(refreshResponse);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
+
+        //Delete cookie
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/auth/refresh")
+                .maxAge(0)
+                .sameSite("Strict")
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        refreshTokenService.deleteFreshToken(refreshToken);
+
+        return  ResponseEntity.noContent().build();
+    }
 }

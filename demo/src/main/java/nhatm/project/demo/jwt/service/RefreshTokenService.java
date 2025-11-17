@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,5 +97,15 @@ public class RefreshTokenService {
 
     public RefreshToken getRefreshTokenByToken(String refreshToken) {
         return refreshTokenRepository.findByToken(refreshToken);
+    }
+
+    public void deleteFreshToken(String refreshToken) {
+        RefreshToken refreshTokenModel = refreshTokenRepository.findByToken(refreshToken);
+
+        if (refreshTokenModel == null) {
+            return;
+        }
+
+        refreshTokenRepository.delete(refreshTokenModel);
     }
 }
