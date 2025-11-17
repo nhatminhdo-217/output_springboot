@@ -1,10 +1,7 @@
 package nhatm.project.demo.jwt.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,8 +12,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Data
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -35,6 +33,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     @CreationTimestamp
     @Column(updatable = false, name = "create_at")
     private LocalDate createAt;
@@ -43,6 +44,8 @@ public class User implements UserDetails {
     @Column(updatable = false, name = "update_at")
     private LocalDate updateAt;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
@@ -51,8 +54,10 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<RefreshToken> refreshTokens;
+    private Set<RefreshToken> refreshTokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -81,6 +86,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 }

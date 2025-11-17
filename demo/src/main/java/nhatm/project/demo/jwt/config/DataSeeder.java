@@ -40,6 +40,7 @@ public class DataSeeder implements CommandLineRunner {
                     .email(email)
                     .password(passwordEncoder.encode(password))
                     .roles(Set.of(role))
+                    .enabled(true)
                     .build();
 
             userRepository.save(admin);

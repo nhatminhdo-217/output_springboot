@@ -2,10 +2,7 @@ package nhatm.project.demo.jwt.controller;
 
 import nhatm.project.demo.jwt.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -23,6 +20,17 @@ public class AdminController {
 
         if (isDeleted) {
             return ResponseEntity.noContent().build();
+        }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/ban/{id}")
+    public ResponseEntity<?>  banUser(@PathVariable Long id) {
+        boolean isBanned = userService.banUserById(id);
+
+        if (isBanned) {
+            return ResponseEntity.ok().body("User with id " + id + " has been banned.");
         }else {
             return ResponseEntity.notFound().build();
         }

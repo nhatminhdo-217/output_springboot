@@ -22,9 +22,8 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<User> getCurrentUser() {
+    public ResponseEntity<?> getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         User user = (User) auth.getPrincipal();
 
         return ResponseEntity.ok(user);

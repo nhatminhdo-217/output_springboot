@@ -1,6 +1,9 @@
 package nhatm.project.demo.jwt.service;
 
+import jakarta.transaction.Transactional;
+import nhatm.project.demo.jwt.model.RefreshToken;
 import nhatm.project.demo.jwt.model.User;
+import nhatm.project.demo.jwt.repository.RefreshTokenRepository;
 import nhatm.project.demo.jwt.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,14 +12,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RefreshTokenRepository refreshTokenRepository) {
         this.userRepository = userRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Override
@@ -37,5 +44,25 @@ public class UserService implements UserDetailsService {
         }
 
         return false;
+    }
+
+    public boolean banUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isPresent()) {
+            User userToBan = user.get();
+            userToBan.setEnabled(false);
+
+            deleteUserRefreshTokens(userToBan);
+
+            userRepository.save(userToBan);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void deleteUserRefreshTokens(User user) {
+        refreshTokenRepository.deleteAll(user.getRefreshTokens());
     }
 }
