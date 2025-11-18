@@ -49,10 +49,6 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpServletResponse response) {
         User loginUser = authenticationService.login(loginRequestDTO);
 
-        if (!loginUser.isEnabled()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User with id " + loginUser.getId() + " has been banned. If there anything, please contract admin.");
-        }
-
         String jwtToken = jwtService.generateToken(loginUser);
         String refreshToken = refreshTokenService.generateRefreshToken(loginUser);
 

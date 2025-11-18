@@ -15,7 +15,6 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-@Transactional
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -35,6 +34,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    @Transactional
     public boolean deleteUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
 
@@ -46,6 +46,7 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
+    @Transactional
     public boolean banUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
 
